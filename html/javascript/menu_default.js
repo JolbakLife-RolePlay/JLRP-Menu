@@ -91,7 +91,7 @@
 				let menuData = JLRP_Menu_Default.opened[namespace][name];
 				let view = JSON.parse(JSON.stringify(menuData));
 
-				for (let i=0; i<menuData.elements.length; i++) {
+				for (let i = 0; i < menuData.elements.length; i++) {
 					let element = view.elements[i];
 
 					switch (element.type) {
