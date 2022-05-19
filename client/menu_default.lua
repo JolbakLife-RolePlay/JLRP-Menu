@@ -1,5 +1,4 @@
-local GUI, MenuType = {}, 'default'
-GUI.Time = 0
+local GUI_Time, MenuType = 0, 'default'
 
 local function openMenu(namespace, name, data)
 	SendNUIMessage({
@@ -56,39 +55,25 @@ RegisterNUICallback('menu_change', function(data, cb)
 	cb('OK')
 end)
 
---await built-in keymanager in JLRP-Framework for optimization
-CreateThread(function()
-	while true do
-		Wait(15)
-
-		if IsControlPressed(0, 201) and IsUsingKeyboard(0) and (GetGameTimer() - GUI.Time) > 150 then
-			SendNUIMessage({action = 'controlPressed', control = 'ENTER'})
-			GUI.Time = GetGameTimer()
-		end
-
-		if IsControlPressed(0, 177) and IsUsingKeyboard(0) and (GetGameTimer() - GUI.Time) > 150 then
-			SendNUIMessage({action  = 'controlPressed', control = 'BACKSPACE'})
-			GUI.Time = GetGameTimer()
-		end
-
-		if IsControlPressed(0, 27) and IsUsingKeyboard(0) and (GetGameTimer() - GUI.Time) > 150 then
-			SendNUIMessage({action  = 'controlPressed', control = 'TOP'})
-			GUI.Time = GetGameTimer()
-		end
-
-		if IsControlPressed(0, 173) and IsUsingKeyboard(0) and (GetGameTimer() - GUI.Time) > 150 then
-			SendNUIMessage({action  = 'controlPressed', control = 'DOWN'})
-			GUI.Time = GetGameTimer()
-		end
-
-		if IsControlPressed(0, 174) and IsUsingKeyboard(0) and (GetGameTimer() - GUI.Time) > 150 then
-			SendNUIMessage({action  = 'controlPressed', control = 'LEFT'})
-			GUI.Time = GetGameTimer()
-		end
-
-		if IsControlPressed(0, 175) and IsUsingKeyboard(0) and (GetGameTimer() - GUI.Time) > 150 then
-			SendNUIMessage({action  = 'controlPressed', control = 'RIGHT'})
-			GUI.Time = GetGameTimer()
-		end
-	end
+RegisterNetEvent('onKeyDown')
+AddEventHandler('onKeyDown', function(key)
+	if key == 'return' and ((GetGameTimer() - GUI_Time) > 150) then -- enter
+        SendNUIMessage({action = 'controlPressed', control = 'ENTER'})
+        GUI_Time = GetGameTimer()
+    elseif key == 'back' and ((GetGameTimer() - GUI_Time) > 150) then -- backspace
+        SendNUIMessage({action  = 'controlPressed', control = 'BACKSPACE'})
+        GUI_Time = GetGameTimer()
+    elseif key == 'up' and ((GetGameTimer() - GUI_Time) > 150) then -- up arrow
+        SendNUIMessage({action  = 'controlPressed', control = 'TOP'})
+        GUI_Time = GetGameTimer()
+    elseif key == 'down' and ((GetGameTimer() - GUI_Time) > 150) then -- down arrow
+        SendNUIMessage({action  = 'controlPressed', control = 'DOWN'})
+        GUI_Time = GetGameTimer()
+    elseif key == 'left' and ((GetGameTimer() - GUI_Time) > 150) then -- left arrow
+        SendNUIMessage({action  = 'controlPressed', control = 'LEFT'})
+        GUI_Time = GetGameTimer()
+    elseif key == 'right' and ((GetGameTimer() - GUI_Time) > 150) then -- right arrow
+        SendNUIMessage({action  = 'controlPressed', control = 'RIGHT'})
+        GUI_Time = GetGameTimer()
+    end
 end)
