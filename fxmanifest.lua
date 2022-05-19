@@ -28,6 +28,7 @@ ui_page {
 files {
 	'html/ui.html',
 	'html/css/*.css',
+	'html/fonts/*.ttf',
 	'html/javascript/*.js'
 }
 
