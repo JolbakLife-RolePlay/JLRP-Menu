@@ -66,44 +66,44 @@
 }
 
 .menu_default.align-left {
-    left: 0;
+    left: 1%;
     top: 50%;
 }
 
 .menu_default.align-top-left {
     left: 40;
-    top: 0;
+    top: 1;
 }
 
 .menu_default.align-top {
     left: 50%;
-    top: 0;
+    top: 1;
 }
 
 .menu_default.align-top-right {
-    right: 10;
-    top: 0;
+    right: 40;
+    top: 1;
 }
 
 .menu_default.align-right {
-    right: 0;
+    right: 1;
     top: 50%;
 }
 
 .menu_default.align-bottom-right {
     right: 40;
-    bottom: 0;
+    bottom: 1;
 }
 
 .menu_default.align-bottom {
     left: 50%;
-    bottom: 0;
+    bottom: 1;
     transform: translate(0, -50%);
 }
 
 .menu_default.align-bottom-left {
     left: 40;
-    bottom: 0;
+    bottom: 1;
 }
 
 .menu_default.align-center {
