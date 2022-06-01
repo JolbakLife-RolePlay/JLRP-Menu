@@ -1,5 +1,5 @@
 (function(){
-	let DefaultMenuTpl =
+	let MenuDefaultTpl =
 		'<div id="menu_{{_namespace}}_{{_name}}" class="menu_default{{#align}} align-{{align}}{{/align}}">' +
 			'<div class="head_default"><span>{{{title}}}</span></div>' +
 				'<div class="menu_default-items">' +
@@ -112,7 +112,7 @@
 					}
 				}
 
-				let menu = $(Mustache.render(DefaultMenuTpl, view))[0];
+				let menu = $(Mustache.render(MenuDefaultTpl, view))[0];
 				$(menu).hide();
 				menuContainer.appendChild(menu);
 			}
@@ -127,7 +127,7 @@
 	};
 
 	JLRP_Menu_Default.submit = function(namespace, name, data) {
-		$.post('https://' + JLRP_Menu_Default.ResourceName + '/menu_submit', JSON.stringify({
+		$.post('https://' + JLRP_Menu_Default.ResourceName + '/menu_default_submit', JSON.stringify({
 			_namespace: namespace,
 			_name: name,
 			current: data,
@@ -136,14 +136,14 @@
 	};
 
 	JLRP_Menu_Default.cancel = function(namespace, name) {
-		$.post('https://' + JLRP_Menu_Default.ResourceName + '/menu_cancel', JSON.stringify({
+		$.post('https://' + JLRP_Menu_Default.ResourceName + '/menu_default_cancel', JSON.stringify({
 			_namespace: namespace,
 			_name: name
 		}));
 	};
 
 	JLRP_Menu_Default.change = function(namespace, name, data) {
-		$.post('https://' + JLRP_Menu_Default.ResourceName + '/menu_change', JSON.stringify({
+		$.post('https://' + JLRP_Menu_Default.ResourceName + '/menu_default_change', JSON.stringify({
 			_namespace: namespace,
 			_name: name,
 			current: data,
@@ -158,17 +158,17 @@
 	window.onData = (data) => {
 		switch (data.action) {
 
-			case 'openMenu': {
+			case 'openMenuDefault': {
 				JLRP_Menu_Default.open(data.namespace, data.name, data.data);
 				break;
 			}
 
-			case 'closeMenu': {
+			case 'closeMenuDefault': {
 				JLRP_Menu_Default.close(data.namespace, data.name);
 				break;
 			}
 
-			case 'controlPressed': {
+			case 'menuDefaultControlPressed': {
 				switch (data.control) {
 
 					case 'ENTER': {

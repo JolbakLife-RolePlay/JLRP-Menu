@@ -1,25 +1,25 @@
 local GUI_Time, MenuType = 0, 'default'
 
-local function openMenu(namespace, name, data)
+local function openMenuDefault(namespace, name, data)
 	SendNUIMessage({
-		action = 'openMenu',
+		action = 'openMenuDefault',
 		namespace = namespace,
 		name = name,
 		data = data
 	})
 end
 
-local function closeMenu(namespace, name)
+local function closeMenuDefault(namespace, name)
 	SendNUIMessage({
-		action = 'closeMenu',
+		action = 'closeMenuDefault',
 		namespace = namespace,
 		name = name,
 	})
 end
 
-Framework.UI.Menu.RegisterType(MenuType, openMenu, closeMenu)
+Framework.UI.Menu.RegisterType(MenuType, openMenuDefault, closeMenuDefault)
 
-RegisterNUICallback('menu_submit', function(data, cb)
+RegisterNUICallback('menu_default_submit', function(data, cb)
 	local menu = Framework.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
 	if menu.submit ~= nil then
 		menu.submit(data, menu)
@@ -27,7 +27,7 @@ RegisterNUICallback('menu_submit', function(data, cb)
 	cb('OK')
 end)
 
-RegisterNUICallback('menu_cancel', function(data, cb)
+RegisterNUICallback('menu_default_cancel', function(data, cb)
 	local menu = Framework.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
 
 	if menu.cancel ~= nil then
@@ -36,7 +36,7 @@ RegisterNUICallback('menu_cancel', function(data, cb)
 	cb('OK')
 end)
 
-RegisterNUICallback('menu_change', function(data, cb)
+RegisterNUICallback('menu_default_change', function(data, cb)
 	local menu = Framework.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
 
 	for i = 1, #data.elements, 1 do
@@ -58,22 +58,22 @@ end)
 RegisterNetEvent('onKeyDown')
 AddEventHandler('onKeyDown', function(key)
 	if key == 'return' and ((GetGameTimer() - GUI_Time) > 150) then -- enter
-        SendNUIMessage({action = 'controlPressed', control = 'ENTER'})
+        SendNUIMessage({action = 'menuDefaultControlPressed', control = 'ENTER'})
         GUI_Time = GetGameTimer()
     elseif key == 'back' and ((GetGameTimer() - GUI_Time) > 150) then -- backspace
-        SendNUIMessage({action  = 'controlPressed', control = 'BACKSPACE'})
+        SendNUIMessage({action  = 'menuDefaultControlPressed', control = 'BACKSPACE'})
         GUI_Time = GetGameTimer()
     elseif key == 'up' and ((GetGameTimer() - GUI_Time) > 150) then -- up arrow
-        SendNUIMessage({action  = 'controlPressed', control = 'TOP'})
+        SendNUIMessage({action  = 'menuDefaultControlPressed', control = 'TOP'})
         GUI_Time = GetGameTimer()
     elseif key == 'down' and ((GetGameTimer() - GUI_Time) > 150) then -- down arrow
-        SendNUIMessage({action  = 'controlPressed', control = 'DOWN'})
+        SendNUIMessage({action  = 'menuDefaultControlPressed', control = 'DOWN'})
         GUI_Time = GetGameTimer()
     elseif key == 'left' and ((GetGameTimer() - GUI_Time) > 150) then -- left arrow
-        SendNUIMessage({action  = 'controlPressed', control = 'LEFT'})
+        SendNUIMessage({action  = 'menuDefaultControlPressed', control = 'LEFT'})
         GUI_Time = GetGameTimer()
     elseif key == 'right' and ((GetGameTimer() - GUI_Time) > 150) then -- right arrow
-        SendNUIMessage({action  = 'controlPressed', control = 'RIGHT'})
+        SendNUIMessage({action  = 'menuDefaultControlPressed', control = 'RIGHT'})
         GUI_Time = GetGameTimer()
     end
 end)
