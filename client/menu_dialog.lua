@@ -1,6 +1,6 @@
 local Timeouts, OpenedMenus, MenuType = {}, {}, 'dialog'
 
-local function openMenu(namespace, name, data)
+local function openMenuDialog(namespace, name, data)
 	for i=1, #Timeouts, 1 do
 		Framework.ClearTimeout(Timeouts[i])
 	end
@@ -8,7 +8,7 @@ local function openMenu(namespace, name, data)
 	OpenedMenus[namespace .. '_' .. name] = true
 
 	SendNUIMessage({
-		action = 'openMenu',
+		action = 'openMenuDialog',
 		namespace = namespace,
 		name = name,
 		data = data
@@ -21,11 +21,11 @@ local function openMenu(namespace, name, data)
 	table.insert(Timeouts, timeoutId)
 end
 
-local function closeMenu(namespace, name)
+local function closeMenuDialog(namespace, name)
 	OpenedMenus[namespace .. '_' .. name] = nil
 
 	SendNUIMessage({
-		action = 'closeMenu',
+		action = 'closeMenuDialog',
 		namespace = namespace,
 		name = name,
 	})
@@ -36,10 +36,10 @@ local function closeMenu(namespace, name)
 
 end
 
-Framework.UI.Menu.RegisterType(MenuType, openMenu, closeMenu)
+Framework.UI.Menu.RegisterType(MenuType, openMenuDialog, closeMenuDialog)
 
-AddEventHandler('esx_menu_dialog:message:menu_submit', function(data)
-	local menu = Framework.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
+RegisterNUICallback('menu_dialog_submit', function(data, cb)
+	local menu = Framework.UI.Menu.GetOpened(MenuType, data.namespace, data.name)
 	local cancel = false
 
 	if menu.submit then
@@ -62,24 +62,28 @@ AddEventHandler('esx_menu_dialog:message:menu_submit', function(data)
 			menu.submit(data, menu)
 		end
 	end
+	cb('OK')
 end)
 
-AddEventHandler('esx_menu_dialog:message:menu_cancel', function(data)
-	local menu = Framework.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
+RegisterNUICallback('menu_dialog_cancel', function(data, cb)
+	local menu = Framework.UI.Menu.GetOpened(MenuType, data.namespace, data.name)
 
 	if menu.cancel ~= nil then
 		menu.cancel(data, menu)
 	end
+	cb('OK')
 end)
 
-AddEventHandler('esx_menu_dialog:message:menu_change', function(data)
+RegisterNUICallback('menu_dialog_change', function(data, cb)
 	local menu = Framework.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
 
 	if menu.change ~= nil then
 		menu.change(data, menu)
 	end
+	cb('OK')
 end)
 
+--TODO: Optimize this
 CreateThread(function()
 	while true do
 		Wait(0)

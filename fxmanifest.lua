@@ -18,7 +18,8 @@ shared_scripts {
 }
 
 client_scripts {
-	'client/menu_default.lua'
+	'client/menu_default.lua',
+	'client/menu_dialog.lua'
 }
 
 ui_page {
