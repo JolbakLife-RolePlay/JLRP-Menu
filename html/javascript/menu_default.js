@@ -155,10 +155,11 @@
 		return JLRP_Menu_Default.focus[JLRP_Menu_Default.focus.length - 1];
 	};
 
-	window.onData = (data) => {
+	window.onDefaultData = function(data) {
 		switch (data.action) {
 
 			case 'openMenuDefault': {
+				
 				JLRP_Menu_Default.open(data.namespace, data.name, data.data);
 				break;
 			}
@@ -336,11 +337,5 @@
 			}
 		}
 	};
-
-	window.onload = function(e){
-		window.addEventListener('message', (event) => {
-			onData(event.data);
-		});
-	};
-
+	
 })();

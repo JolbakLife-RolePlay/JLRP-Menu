@@ -161,7 +161,7 @@
 		return JLRP_Menu_Dialog.focus[JLRP_Menu_Dialog.focus.length - 1];
 	};
 
-	window.onData = (data) => {
+	window.onDialogData = function(data) {
 		switch (data.action) {
 
 			case 'openMenuDialog': {
@@ -175,11 +175,5 @@
 			}
 		}
 	};
-
-	window.onload = function (e) {
-		window.addEventListener('message', (event) => {
-			onData(event.data);
-		});
-	};
-
+	
 })();
