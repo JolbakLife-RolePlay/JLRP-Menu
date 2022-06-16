@@ -3,6 +3,7 @@
 		window.addEventListener('message', (event) => {
 			onDefaultData(event.data);
 			onDialogData(event.data);
+			onListData(event.data);
 		});
 	};
 })();

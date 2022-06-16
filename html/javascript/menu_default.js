@@ -14,7 +14,7 @@
 	;
 
 	window.JLRP_Menu_Default = {};
-	JLRP_Menu_Default.ResourceName = 'JLRP-Menu';
+	JLRP_Menu_Default.ResourceName = 'JLRP-Menus';
 	JLRP_Menu_Default.opened = {};
 	JLRP_Menu_Default.focus = [];
 	JLRP_Menu_Default.pos = {};

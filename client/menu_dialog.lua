@@ -1,11 +1,17 @@
-local Timeouts, OpenedMenus, MenuType = {}, {}, 'dialog'
+local Timeouts, OpenedMenus, MenuType, isThreadActive = {}, {}, 'dialog', false
 
 local function openMenuDialog(namespace, name, data)
-	for i=1, #Timeouts, 1 do
+	for i = 1, #Timeouts, 1 do
 		Framework.ClearTimeout(Timeouts[i])
 	end
 
 	OpenedMenus[namespace .. '_' .. name] = true
+
+	if Framework.Table.Length(OpenedMenus) > 0 then
+		RunThread()
+	else
+		isThreadActive = false
+	end
 
 	SendNUIMessage({
 		action = 'openMenuDialog',
@@ -24,22 +30,25 @@ end
 local function closeMenuDialog(namespace, name)
 	OpenedMenus[namespace .. '_' .. name] = nil
 
+	if Framework.Table.Length(OpenedMenus) > 0 then
+		RunThread()
+	else
+		isThreadActive = false
+		SetNuiFocus(false)
+	end
+
 	SendNUIMessage({
 		action = 'closeMenuDialog',
 		namespace = namespace,
 		name = name,
 	})
 
-	if Framework.Table.SizeOf(OpenedMenus) == 0 then
-		SetNuiFocus(false)
-	end
-
 end
 
 Framework.UI.Menu.RegisterType(MenuType, openMenuDialog, closeMenuDialog)
 
 RegisterNUICallback('menu_dialog_submit', function(data, cb)
-	local menu = Framework.UI.Menu.GetOpened(MenuType, data.namespace, data.name)
+	local menu = Framework.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
 	local cancel = false
 
 	if menu.submit then
@@ -66,7 +75,7 @@ RegisterNUICallback('menu_dialog_submit', function(data, cb)
 end)
 
 RegisterNUICallback('menu_dialog_cancel', function(data, cb)
-	local menu = Framework.UI.Menu.GetOpened(MenuType, data.namespace, data.name)
+	local menu = Framework.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
 
 	if menu.cancel ~= nil then
 		menu.cancel(data, menu)
@@ -83,12 +92,11 @@ RegisterNUICallback('menu_dialog_change', function(data, cb)
 	cb('OK')
 end)
 
---TODO: Optimize this
-CreateThread(function()
-	while true do
-		Wait(0)
-
-		if Framework.Table.SizeOf(OpenedMenus) > 0 then
+function RunThread()
+	if isThreadActive then return end
+	isThreadActive = true
+	CreateThread(function()
+		while isThreadActive do
 			DisableControlAction(0, 1,   true) -- LookLeftRight
 			DisableControlAction(0, 2,   true) -- LookUpDown
 			DisableControlAction(0, 142, true) -- MeleeAttackAlternate
@@ -98,8 +106,7 @@ CreateThread(function()
 			DisableControlAction(0, 15, true) -- WeaponWheelPrev
 			DisableControlAction(0, 16, true) -- SelectNextWeapon
 			DisableControlAction(0, 17, true) -- SelectPrevWeapon
-		else
-			Wait(500)
+			Wait(0)
 		end
-	end
-end)
+	end)
+end

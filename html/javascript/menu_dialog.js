@@ -11,7 +11,7 @@
 	;
 
 	window.JLRP_Menu_Dialog = {};
-	JLRP_Menu_Dialog.ResourceName = 'JLRP-Menu';
+	JLRP_Menu_Dialog.ResourceName = 'JLRP-Menus';
 	JLRP_Menu_Dialog.opened = {};
 	JLRP_Menu_Dialog.focus = [];
 	JLRP_Menu_Dialog.pos = {};
@@ -132,8 +132,8 @@
 
 	JLRP_Menu_Dialog.submit = function (namespace, name, data) {
 		$.post('https://' + JLRP_Menu_Dialog.ResourceName + '/menu_dialog_submit', JSON.stringify({
-			namespace: namespace,
-			name: name,
+			_namespace: namespace,
+			_name: name,
 			current: data,
 			elements: JLRP_Menu_Dialog.opened[namespace][name].elements
 		}));
@@ -141,17 +141,17 @@
 
 	JLRP_Menu_Dialog.cancel = function (namespace, name, data) {
 		$.post('https://' + JLRP_Menu_Dialog.ResourceName + '/menu_dialog_cancel', JSON.stringify({
-			namespace: namespace,
-			name: name,
-			current: data,
-			elements: JLRP_Menu_Dialog.opened[namespace][name].elements
+			_namespace: namespace,
+			_name: name,
+			current: data
+			//elements: JLRP_Menu_Dialog.opened[namespace][name].elements
 		}));
 	};
 
 	JLRP_Menu_Dialog.change = function (namespace, name, data) {
 		$.post('https://' + JLRP_Menu_Dialog.ResourceName + '/menu_dialog_change', JSON.stringify({
-			namespace: namespace,
-			name: name,
+			_namespace: namespace,
+			_name: name,
 			current: data,
 			elements: JLRP_Menu_Dialog.opened[namespace][name].elements
 		}));

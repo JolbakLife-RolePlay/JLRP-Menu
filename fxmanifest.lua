@@ -3,10 +3,10 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 
-name 'JLRP-Menu'
+name 'JLRP-Menus'
 author 'Mahan Moulaei'
 discord 'Mahan#8183'
-description 'JolbakLifeRP Menu'
+description 'JolbakLifeRP Menus'
 
 version '0.0'
 
@@ -18,8 +18,7 @@ shared_scripts {
 }
 
 client_scripts {
-	'client/menu_default.lua',
-	'client/menu_dialog.lua'
+	'client/*.lua'
 }
 
 ui_page {
